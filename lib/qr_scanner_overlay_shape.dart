@@ -63,7 +63,7 @@ class QrScannerOverlayShape extends ShapeBorder {
   void paint(Canvas canvas, Rect rect, {TextDirection textDirection}) {
     final width = rect.width;
     final borderWidthSize = width / 2;
-    final height = rect.height;
+    final height = rect.height + 64.0;
     final borderOffset = borderWidth / 2;
     final _borderLength = borderLength > cutOutSize / 2 + borderWidth * 2
         ? borderWidthSize / 2
