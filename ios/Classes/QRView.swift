@@ -13,7 +13,9 @@ public class QRView:NSObject,FlutterPlatformView {
     var scanner: MTBBarcodeScanner?
     var registrar: FlutterPluginRegistrar
     var channel: FlutterMethodChannel
-    
+    var mWidth: Double = 200.0
+    var mHeight: Double = 200.0
+
     public init(withFrame frame: CGRect, withRegistrar registrar: FlutterPluginRegistrar, withId id: Int64){
         self.registrar = registrar
         previewView = UIView(frame: frame)
@@ -23,6 +25,9 @@ public class QRView:NSObject,FlutterPlatformView {
     func isCameraAvailable(success: Bool) -> Void {
         if success {
             do {
+                self.scanner?.didStartScanningBlock = {
+                    self.scanner?.scanRect = CGRect(x: (self.mWidth-250)/2, y: (self.mHeight-250)/2, width: 250, height: 250)
+                }
                 try scanner?.startScanning(resultBlock: { codes in
                     if let codes = codes {
                         for code in codes {
@@ -63,6 +68,8 @@ public class QRView:NSObject,FlutterPlatformView {
     }
     
     func setDimensions(width: Double, height: Double) -> Void {
+       mWidth = width
+       mHeight = height
        previewView.frame = CGRect(x: 0, y: 0, width: width, height: height)
        scanner = MTBBarcodeScanner(previewView: previewView)
        scanner?.scanRect = CGRect(x: (width-200)/2, y: (height-200)/2, width: 200, height: 200);
